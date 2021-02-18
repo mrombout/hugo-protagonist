@@ -1,0 +1,31 @@
+{{ define "main" }}
+    <main>
+        <section>
+            <header class="project-header">
+                <h1>{{ .Title }}</h1>
+            </header>
+            {{ with .Description }}
+            <p class="project-description">
+                {{ . }}
+            </p>
+            {{ end }}
+            {{ with .Param "screenshot" }}
+            <p class="project-screenshot">
+                <img src="screenshot.png" />
+            </p>
+            {{ end }}
+            <div class="project-content">
+                {{ .Content }}
+            </div>
+            <h2>Links</h2>
+            <ul>
+                {{ with .Param "github" }}
+                <li><a href="{{ . }}">GitHub</a></li>
+                {{ end }}
+                {{ range $key, $value := .Param "links" }}
+                <li><a href="{{ .url }}">{{ .label }}</a></li>
+                {{ end }}
+            </ul>
+        </section>
+    </main>
+{{ end }}

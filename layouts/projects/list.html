@@ -1,0 +1,25 @@
+{{ define "main" }}
+    <main>
+        <section>
+            <header class="homepage-header">
+                <h1>{{ .Title }}</h1>
+            </header>
+            <div class="homepage-content">
+                {{ .Content }}
+
+                <ul>
+                    {{ $pages := .Pages }}
+                    {{ if len $pages | lt 0 }}
+                    {{ range (where $pages "Section" "!=" "") }}
+                    <li>
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a> <span class="technology">[{{ .Param "technology" }}]</span> {{ .Description }}
+                    </li>
+                    {{ end }}
+                    {{ else }}
+                    <li><i>No projects yet.</i></li>
+                    {{ end }}
+                </ul>
+            </div>
+        </section>
+    </main>
+{{ end }}

@@ -1,0 +1,61 @@
+{{ define "main" }}
+    <main>
+        <section>
+            {{ if .Title }}
+            <header class="homepage-header">
+                <h1>{{ .Title }}</h1>
+            </header>
+            {{ end }}
+            <div class="homepage-content">
+                {{ .Content }}
+            </div>
+        </section>
+        <section>
+            <header>
+                <h2>Projects</h2>
+            </header>
+            <ul>
+                {{ $maxProjects := 10 }}
+                {{ $pages := where .Site.RegularPages "Section" "==" "projects" }}
+                {{ if len $pages | lt 0 }}
+                {{ range first $maxProjects $pages }}
+                <li>
+                    <a href="{{ .RelPermalink }}">{{ .Title }}</a> <span class="technology">[{{ .Param "technology" }}]</span> {{ .Param "description" }}
+                </li>
+                {{ end }}
+                {{ if gt (len $pages) $maxProjects }}
+                <li>
+                    <a href="/posts/">More...</a>
+                </li>
+                {{ end }}
+                {{ else }}
+                <li><i>No projects yet.</i></li>
+                {{ end }}
+            </ul>
+        </section>
+        <section>
+            <header>
+                <h2>Blog</h2>
+                <ul>
+                    {{ $maxPosts := 10 }}
+                    {{ $pages := where .Site.RegularPages "Section" "==" "posts" }}
+                    {{ if gt (len $pages) 0 }}
+                    {{ range first $maxPosts $pages.ByPublishDate.Reverse }}
+                    <li>
+                        <span class="date">{{ .Date.Format "2006/01/02" }}</span>
+                        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                    </li>
+                    {{ end }}
+                    {{ if gt (len $pages) $maxPosts }}
+                    <li>
+                        <a href="/posts/">More...</a>
+                    </li>
+                    {{ end }}
+                    {{ else }}
+                    <li><i>No blog entries yet.</i></li>
+                    {{ end }}
+                </ul>
+            </header>
+        </section>
+    </main>
+{{ end }}
